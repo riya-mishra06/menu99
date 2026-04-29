@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, Plus, FileText, IndianRupee, Star, Bell, ArrowRight, MoreHorizontal } from 'lucide-react';
+import { Plus, FileText, IndianRupee, Star, Bell, ArrowRight, MoreHorizontal } from 'lucide-react';
 import './Dashboard.css';
 
 export default function Dashboard() {
-  const recentOrders = [
+  const [recentOrders, setRecentOrders] = React.useState([
     {
       id: '#6689',
       time: '2 mins ago',
@@ -41,7 +41,21 @@ export default function Dashboard() {
       borderClass: 'status-ready',
       btnClass: 'complete'
     }
-  ];
+  ]);
+
+  const handleAction = (orderId, currentAction) => {
+    if (currentAction === 'Complete') {
+      setRecentOrders(prev => prev.filter(o => o.id !== orderId));
+    } else if (currentAction === 'Ready') {
+      setRecentOrders(prev => prev.map(o => 
+        o.id === orderId ? { ...o, status: 'Ready', action: 'Complete', badgeClass: 'ready', borderClass: 'status-ready', btnClass: 'complete' } : o
+      ));
+    } else if (currentAction === 'Accept') {
+      setRecentOrders(prev => prev.map(o => 
+        o.id === orderId ? { ...o, status: 'Prepared', action: 'Ready', badgeClass: 'prepared', borderClass: 'status-prepared', btnClass: 'ready' } : o
+      ));
+    }
+  };
 
   const staffOnDuty = [
     { id: 1, name: 'Raj Thapa', role: 'Kitchen Head', img: 'https://i.pravatar.cc/150?u=raj' },
@@ -50,25 +64,6 @@ export default function Dashboard() {
 
   return (
     <div className="dashboard-page">
-      {/* HEADER */}
-      <header className="dashboard-header">
-        <div className="header-left">
-          <Menu className="menu-icon" size={24} />
-          <div className="brand-section">
-            <Link to="/dashboard" style={{textDecoration: 'none'}}>
-              <span className="brand-logo">
-                <span className="brand-logo-menu">Menu</span>
-                <span className="brand-logo-99">99</span>
-              </span>
-            </Link>
-            <span className="header-title">Dashboard</span>
-          </div>
-        </div>
-        <button className="add-item-btn">
-          <Plus size={16} /> Add Item
-        </button>
-      </header>
-
       {/* MAIN CONTENT */}
       <main className="dashboard-content">
         
@@ -171,15 +166,15 @@ export default function Dashboard() {
                   </div>
                   <div className="order-action">
                     <div className="order-amount">{order.amount}</div>
-                    <button className={`action-btn ${order.btnClass}`}>{order.action}</button>
+                    <button className={`action-btn ${order.btnClass}`} onClick={() => handleAction(order.id, order.action)}>{order.action}</button>
                   </div>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* SIDEBAR */}
-          <aside className="sidebar">
+          {/* WIDGETS */}
+          <aside className="dashboard-widgets">
             
             {/* Peak Hours */}
             <div className="sidebar-card">

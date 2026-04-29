@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Plus, QrCode, Edit2, FileText } from 'lucide-react';
 import './TableManagement.css';
 
 export default function TableManagement() {
-  const tables = [
+  const [tables, setTables] = useState([
     { id: 'T1', status: 'empty' },
     { id: 'T2', status: 'occupied', orderId: '#6421', time: '12:30 PM', items: 4 },
     { id: 'T3', status: 'empty' },
@@ -12,31 +12,26 @@ export default function TableManagement() {
     { id: 'T5', status: 'occupied', orderId: '#6422', time: '12:45 PM', items: 2 },
     { id: 'T6', status: 'empty' },
     { id: 'T7', status: 'empty' }
-  ];
+  ]);
+
+  const handleAddTable = () => {
+    const newId = `T${tables.length + 1}`;
+    setTables([...tables, { id: newId, status: 'empty' }]);
+  };
 
   return (
     <div className="table-management-page">
-      {/* HEADER */}
-      <header className="table-header">
-        <div className="header-left">
-          <div className="brand-section">
-            <Link to="/dashboard" style={{textDecoration: 'none'}}>
-              <span className="brand-logo">
-                <span className="brand-logo-menu">Menu</span>
-                <span className="brand-logo-99">99</span>
-              </span>
-            </Link>
-          </div>
-        </div>
-        <button className="add-table-btn">
-          <Plus size={16} /> Add Table
-        </button>
-      </header>
-
       {/* MAIN CONTENT */}
       <main className="table-content">
-        <h1 className="page-title">Table Management</h1>
-        <p className="page-subtitle">Configure your floor plan and generate digital ordering codes.</p>
+        <div className="table-page-header">
+          <div>
+            <h1 className="page-title">Table Management</h1>
+            <p className="page-subtitle">Configure your floor plan and generate digital ordering codes.</p>
+          </div>
+          <button className="add-table-btn" onClick={handleAddTable}>
+            <Plus size={16} /> Add Table
+          </button>
+        </div>
         
         <div className="table-grid">
           {tables.map((table) => (
@@ -88,7 +83,7 @@ export default function TableManagement() {
           ))}
 
           {/* ADD NEW TABLE CARD */}
-          <div className="table-card add-table-card">
+          <div className="table-card add-table-card" onClick={handleAddTable}>
             <div className="add-icon-wrapper">
               <Plus size={24} />
             </div>

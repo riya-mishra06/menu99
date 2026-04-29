@@ -28,25 +28,26 @@ export default function Settings() {
     closeTime: '11:00 PM',
     autoClose: true,
   });
+  const [showToast, setShowToast] = useState(false);
+
+  const handleSave = () => {
+    setShowToast(true);
+    setTimeout(() => setShowToast(false), 3000);
+  };
 
   const toggle = (key) => setSettings(s => ({ ...s, [key]: !s[key] }));
   const set = (key, val) => setSettings(s => ({ ...s, [key]: val }));
 
   return (
     <div className="settings-page">
-      <header className="settings-header">
-        <Link to="/dashboard" className="brand-logo">
-          <span className="brand-logo-menu">Menu</span>
-          <span className="brand-logo-99">99</span>
-        </Link>
-        <div className="header-actions">
-          <button className="btn-discard">Discard Changes</button>
-          <button className="btn-save">Save Settings</button>
-        </div>
-      </header>
-
       <main className="settings-content">
-        <h1 className="settings-title">Settings</h1>
+        <div className="settings-page-header">
+          <h1 className="settings-title">Settings</h1>
+          <div className="header-actions">
+            <button className="btn-discard">Discard Changes</button>
+            <button className="btn-save" onClick={handleSave}>Save Settings</button>
+          </div>
+        </div>
 
         <div className="settings-grid">
           {/* Language & Region */}
@@ -178,6 +179,13 @@ export default function Settings() {
           </div>
         </div>
       </main>
+
+      {/* Toast Notification */}
+      {showToast && (
+        <div className="toast-notification">
+          Settings saved successfully!
+        </div>
+      )}
     </div>
   );
 }

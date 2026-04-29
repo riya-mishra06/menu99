@@ -22,28 +22,28 @@ export default function CafeProfile() {
     accountNo: '***********4521'
   });
 
+  const [showToast, setShowToast] = useState(false);
+
+  const handleSave = () => {
+    setShowToast(true);
+    setTimeout(() => setShowToast(false), 3000);
+  };
+
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Profile saved:', form);
-    alert('Profile saved successfully!');
+    handleSave();
   };
 
   return (
     <div className="profile-page">
-      <header className="profile-header">
-        <Link to="/dashboard" className="brand-logo-link">
-          <span className="brand-logo-menu-p">Menu</span>
-          <span className="brand-logo-99-p">99</span>
-        </Link>
-        <button className="share-btn"><Share2 size={14} /> Share Profile</button>
-      </header>
-
       <main className="profile-content">
         <div>
           <div className="profile-title-row">
             <h1 className="profile-title">Profile</h1>
+            <button className="share-btn"><Share2 size={14} /> Share Profile</button>
           </div>
           <div className="cafe-name-line">
             <strong>{form.cafeName}</strong> &bull; {form.city}, {form.state}
@@ -115,6 +115,13 @@ export default function CafeProfile() {
           </div>
         </form>
       </main>
+
+      {/* Toast Notification */}
+      {showToast && (
+        <div className="toast-notification">
+          Profile saved successfully!
+        </div>
+      )}
     </div>
   );
 }

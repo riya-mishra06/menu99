@@ -7,64 +7,7 @@
   color: #1e293b;
 }
 
-.reviews-header {
-  background-color: #ffffff;
-  height: 64px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 32px;
-  border-bottom: 1px solid #e2e8f0;
-  position: sticky;
-  top: 0;
-  z-index: 10;
-}
 
-.brand-logo {
-  font-family: 'Outfit', sans-serif;
-  font-size: 20px;
-  font-weight: 800;
-  letter-spacing: -0.5px;
-  text-decoration: none;
-}
-.brand-logo-menu { color: #ea580c; }
-.brand-logo-99 { color: #1e293b; }
-
-.header-right {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  font-size: 13px;
-  color: #64748b;
-}
-
-.cafe-open-toggle {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: 600;
-}
-
-.toggle-switch {
-  width: 40px;
-  height: 22px;
-  background-color: #10b981;
-  border-radius: 11px;
-  position: relative;
-  cursor: pointer;
-}
-
-.toggle-switch::after {
-  content: '';
-  position: absolute;
-  width: 18px;
-  height: 18px;
-  background: white;
-  border-radius: 50%;
-  top: 2px;
-  right: 2px;
-  transition: left 0.2s;
-}
 
 .reviews-content {
   padding: 32px;

@@ -6,7 +6,7 @@ import './Orders.css';
 export default function Orders() {
   const [activeTab, setActiveTab] = useState('new');
 
-  const newOrders = [
+  const [newOrders, setNewOrders] = useState([
     {
       id: '#6688',
       time: '15 mins',
@@ -54,64 +54,24 @@ export default function Orders() {
       ],
       total: '₹195.00'
     }
-  ];
+  ]);
 
-  const progressOrders = [
+  const [progressOrders, setProgressOrders] = useState([
     {
-      id: '#6688',
-      time: '15 mins',
+      id: '#6685',
+      time: '20 mins',
       status: 'PREPARING',
-      type: 'Table 08',
+      type: 'Table 04',
       typeIcon: 'table',
       items: [
-        { name: 'Masala Chai', qty: 2, price: '120.00' },
-        { name: 'Garlic Naan', qty: 1, price: '60.00' }
+        { name: 'Veg Hakka Noodles', qty: 1, price: '180.00' }
       ],
       total: '₹180.00',
-      action: 'Mark Ready'
-    },
-    {
-      id: '#6689',
-      time: '10 mins',
-      status: 'PREPARING',
-      type: 'Takeaway',
-      typeIcon: 'takeaway',
-      items: [
-        { name: 'Cold Coffee', qty: 1, price: '80.00' },
-        { name: 'Cheese Grilled Sandwich', qty: 2, price: '240.00' }
-      ],
-      total: '₹320.00',
-      action: 'Mark Ready'
-    },
-    {
-      id: '#6690',
-      time: '5 mins',
-      status: 'PREPARING',
-      type: 'Online',
-      typeIcon: 'online',
-      items: [
-        { name: 'Veg Burger', qty: 2, price: '120.00' },
-        { name: 'French Fries', qty: 1, price: '60.00' }
-      ],
-      total: '₹180.00',
-      action: 'Out For Delivery'
-    },
-    {
-      id: '#6691',
-      time: 'Just now',
-      status: 'PREPARING',
-      type: 'Table 02',
-      typeIcon: 'table',
-      items: [
-        { name: 'Butter Chicken', qty: 1, price: '150.00' },
-        { name: 'Tandoori Roti', qty: 3, price: '45.00' }
-      ],
-      total: '₹195.00',
       action: 'Mark Ready'
     }
-  ];
+  ]);
 
-  const completedOrders = [
+  const [completedOrders, setCompletedOrders] = useState([
     {
       id: '#6628',
       time: '12:42 PM',
@@ -122,62 +82,33 @@ export default function Orders() {
         { name: 'Garlic Naan', qty: 3, price: '150' }
       ],
       total: '₹500'
-    },
-    {
-      id: '#6629',
-      time: '12:20 PM',
-      customer: 'Priya S.',
-      typeIcon: 'takeaway',
-      items: [
-        { name: 'Chicken Dum Biryani', qty: 1, price: '280' },
-        { name: 'Coke (300ml)', qty: 2, price: '80' }
-      ],
-      total: '₹360'
-    },
-    {
-      id: '#6630',
-      time: '12:15 PM',
-      customer: 'Amit R.',
-      typeIcon: 'table',
-      items: [
-        { name: 'Masala Dosa', qty: 2, price: '240' },
-        { name: 'Filter Coffee', qty: 2, price: '80' }
-      ],
-      total: '₹320'
-    },
-    {
-      id: '#6627',
-      time: '11:45 AM',
-      customer: 'Sneha L.',
-      typeIcon: 'takeaway',
-      items: [
-        { name: 'Margherita Pizza (L)', qty: 1, price: '450' }
-      ],
-      total: '₹450'
-    },
-    {
-      id: '#6626',
-      time: '11:30 AM',
-      customer: 'Vikram M.',
-      typeIcon: 'takeaway',
-      items: [
-        { name: 'Veg Hakka Noodles', qty: 2, price: '340' },
-        { name: 'Gobi Manchurian', qty: 1, price: '180' }
-      ],
-      total: '₹520'
-    },
-    {
-      id: '#6625',
-      time: '11:10 AM',
-      customer: 'Ananya P.',
-      typeIcon: 'table',
-      items: [
-        { name: 'Cold Coffee', qty: 1, price: '140' },
-        { name: 'Choco Lava Cake', qty: 1, price: '110' }
-      ],
-      total: '₹250'
     }
-  ];
+  ]);
+
+  const handleAcceptOrder = (order) => {
+    setNewOrders(prev => prev.filter(o => o.id !== order.id));
+    setProgressOrders(prev => [{...order, status: 'PREPARING', action: 'Mark Ready'}, ...prev]);
+  };
+
+  const handleRejectOrder = (orderId) => {
+    setNewOrders(prev => prev.filter(o => o.id !== orderId));
+  };
+
+  const handleCompleteOrder = (order) => {
+    setProgressOrders(prev => prev.filter(o => o.id !== order.id));
+    
+    // Convert progress order to completed order format
+    const newCompleted = {
+      id: order.id,
+      time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
+      customer: 'Walk-in Customer',
+      typeIcon: order.typeIcon,
+      items: order.items,
+      total: order.total
+    };
+    
+    setCompletedOrders(prev => [newCompleted, ...prev]);
+  };
 
   const getTypeIcon = (type) => {
     switch(type) {
@@ -190,26 +121,14 @@ export default function Orders() {
 
   return (
     <div className="orders-page">
-      {/* HEADER */}
-      <header className="orders-header">
-        <div className="header-left">
-          <div className="brand-section">
-            <Link to="/dashboard" style={{textDecoration: 'none'}}>
-              <span className="brand-logo">
-                <span className="brand-logo-menu">Menu</span>
-                <span className="brand-logo-99">99</span>
-              </span>
-            </Link>
-          </div>
-        </div>
-        <button className="add-item-btn">
-          <Plus size={16} /> Add Order
-        </button>
-      </header>
-
       {/* MAIN CONTENT */}
       <main className="orders-content">
-        <h1 className="page-title">Orders</h1>
+        <div className="orders-page-header">
+          <h1 className="page-title">Orders</h1>
+          <button className="add-item-btn">
+            <Plus size={16} /> Add Order
+          </button>
+        </div>
         
         {/* TABS */}
         <div className="tabs-container">
@@ -217,19 +136,19 @@ export default function Orders() {
             className={`tab-btn ${activeTab === 'new' ? 'active' : ''}`}
             onClick={() => setActiveTab('new')}
           >
-            New Orders <span className="tab-count">3</span>
+            New Orders <span className="tab-count">{newOrders.length}</span>
           </button>
           <button 
             className={`tab-btn ${activeTab === 'progress' ? 'active' : ''}`}
             onClick={() => setActiveTab('progress')}
           >
-            In Progress <span className="tab-count">5</span>
+            In Progress <span className="tab-count">{progressOrders.length}</span>
           </button>
           <button 
             className={`tab-btn ${activeTab === 'completed' ? 'active' : ''}`}
             onClick={() => setActiveTab('completed')}
           >
-            Completed
+            Completed <span className="tab-count">{completedOrders.length}</span>
           </button>
         </div>
 
@@ -273,8 +192,8 @@ export default function Orders() {
                 </div>
 
                 <div className="card-actions">
-                  <button className="btn-accept">Accept</button>
-                  <button className="btn-reject">Reject</button>
+                  <button className="btn-accept" onClick={() => handleAcceptOrder(order)}>Accept</button>
+                  <button className="btn-reject" onClick={() => handleRejectOrder(order.id)}>Reject</button>
                 </div>
 
               </div>
@@ -321,7 +240,7 @@ export default function Orders() {
                 </div>
 
                 <div className="card-actions">
-                  <button className="btn-full-action">{order.action}</button>
+                  <button className="btn-full-action" onClick={() => handleCompleteOrder(order)}>{order.action}</button>
                 </div>
 
               </div>

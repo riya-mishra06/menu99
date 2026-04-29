@@ -7,39 +7,7 @@
   color: #1e293b;
 }
 
-.orders-header {
-  background-color: #ffffff;
-  height: 64px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 32px;
-  border-bottom: 1px solid #e2e8f0;
-  position: sticky;
-  top: 0;
-  z-index: 10;
-}
 
-.header-left {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-}
-
-.brand-section {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.brand-logo {
-  font-family: 'Outfit', sans-serif;
-  font-size: 20px;
-  font-weight: 800;
-  letter-spacing: -0.5px;
-}
-.brand-logo-menu { color: #ea580c; }
-.brand-logo-99 { color: #1e293b; }
 
 .add-item-btn {
   background-color: #ffffff;
@@ -69,6 +37,12 @@
   display: flex;
   flex-direction: column;
   gap: 24px;
+}
+
+.orders-page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .page-title {

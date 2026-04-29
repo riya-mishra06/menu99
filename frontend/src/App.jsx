@@ -13,24 +13,34 @@ import CustomerReviews from './pages/CustomerReviews';
 import CafeProfile from './pages/CafeProfile';
 import Settings from './pages/Settings';
 import SecurityPassword from './pages/SecurityPassword';
+import AppShell from './components/AppShell';
+import MenuManagement from './pages/MenuManagement';
+import Earnings from './pages/Earnings';
 
 function App() {
   return (
     <Router>
       <Routes>
+        {/* Public Routes */}
         <Route path="/" element={<Splash />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/verify-email" element={<EmailVerification />} />
         <Route path="/success" element={<SuccessPage />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/orders" element={<Orders />} />
-        <Route path="/tables" element={<TableManagement />} />
-        <Route path="/reviews" element={<CustomerReviews />} />
-        <Route path="/profile" element={<CafeProfile />} />
-        <Route path="/settings" element={<Settings />} />
-        <Route path="/security" element={<SecurityPassword />} />
+
+        {/* Protected Routes inside AppShell */}
+        <Route element={<AppShell />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/orders" element={<Orders />} />
+          <Route path="/menu" element={<MenuManagement />} />
+          <Route path="/tables" element={<TableManagement />} />
+          <Route path="/reviews" element={<CustomerReviews />} />
+          <Route path="/earnings" element={<Earnings />} />
+          <Route path="/profile" element={<CafeProfile />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/security" element={<SecurityPassword />} />
+        </Route>
       </Routes>
     </Router>
   );

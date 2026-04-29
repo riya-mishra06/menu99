@@ -7,28 +7,7 @@
   color: #1e293b;
 }
 
-.settings-header {
-  background: white;
-  height: 64px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 32px;
-  border-bottom: 1px solid #e2e8f0;
-  position: sticky;
-  top: 0;
-  z-index: 10;
-}
 
-.brand-logo {
-  font-family: 'Outfit', sans-serif;
-  font-size: 20px;
-  font-weight: 800;
-  letter-spacing: -0.5px;
-  text-decoration: none;
-}
-.brand-logo-menu { color: #ea580c; }
-.brand-logo-99 { color: #1e293b; }
 
 .header-actions {
   display: flex;
@@ -69,10 +48,17 @@
   width: 100%;
 }
 
+.settings-page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 28px;
+}
+
 .settings-title {
   font-size: 20px;
   font-weight: 800;
-  margin-bottom: 28px;
+  margin-bottom: 0;
 }
 
 .settings-grid {

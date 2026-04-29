@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate, Outlet, useLocation } from 'react-router-dom';
 import {
   LayoutDashboard, ShoppingBag, BookOpen, LayoutGrid,
   Star, IndianRupee, User, Settings, LogOut, Bell
@@ -20,12 +20,30 @@ const bottomItems = [
   { to: '/settings', icon: Settings, label: 'Settings' },
 ];
 
-export default function AppShell({ children, pageTitle }) {
+export default function AppShell() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLogout = () => {
     navigate('/login');
   };
+
+  const getPageTitle = () => {
+    switch (location.pathname) {
+      case '/dashboard': return 'Dashboard';
+      case '/orders': return 'Orders';
+      case '/menu': return 'Menu Management';
+      case '/tables': return 'Table Management';
+      case '/reviews': return 'Customer Reviews';
+      case '/earnings': return 'Earnings & Reports';
+      case '/profile': return 'Cafe Profile';
+      case '/settings': return 'Settings';
+      case '/security': return 'Security Settings';
+      default: return 'Dashboard';
+    }
+  };
+
+  const pageTitle = getPageTitle();
 
   return (
     <div className="app-shell">
@@ -106,7 +124,7 @@ export default function AppShell({ children, pageTitle }) {
 
         {/* PAGE CONTENT */}
         <div className="shell-content">
-          {children}
+          <Outlet />
         </div>
       </div>
     </div>
