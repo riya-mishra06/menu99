@@ -1,0 +1,256 @@
+.table-management-page {
+  background-color: #f8fafc;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Inter', sans-serif;
+  color: #1e293b;
+}
+
+.table-header {
+  background-color: #ffffff;
+  height: 64px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 32px;
+  border-bottom: 1px solid #e2e8f0;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.brand-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-logo {
+  font-family: 'Outfit', sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+.brand-logo-menu { color: #ea580c; }
+.brand-logo-99 { color: #1e293b; }
+
+.add-table-btn {
+  background-color: #ffffff;
+  border: 1px solid #10b981;
+  color: #10b981;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s;
+}
+
+.add-table-btn:hover {
+  background-color: #f0fdf4;
+}
+
+.table-content {
+  padding: 32px;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.page-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: #1e293b;
+  margin-bottom: 4px;
+}
+
+.page-subtitle {
+  font-size: 13px;
+  color: #64748b;
+  margin-bottom: 32px;
+}
+
+/* TABLE GRID */
+.table-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 24px;
+}
+
+/* CARDS */
+.table-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  border: 1px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  height: 240px;
+  position: relative;
+  overflow: hidden;
+}
+
+.table-card.occupied {
+  border: 1px solid #ef4444;
+  border-left: 4px solid #ef4444;
+}
+
+.card-top {
+  padding: 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.table-id {
+  font-size: 14px;
+  font-weight: 700;
+  color: #3b82f6; /* blue text for T1, T2 */
+  margin-bottom: 16px;
+}
+
+/* EMPTY STATE CONTENT */
+.empty-content {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.qr-placeholder {
+  width: 80px;
+  height: 80px;
+  background-color: #fff7ed; /* very light orange */
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fed7aa; /* light orange icon */
+}
+
+/* OCCUPIED STATE CONTENT */
+.occupied-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.active-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #ea580c;
+  margin-bottom: 8px;
+  letter-spacing: 0.5px;
+}
+
+.order-id {
+  font-size: 20px;
+  font-weight: 800;
+  color: #1e293b;
+  margin-bottom: 8px;
+}
+
+.order-details {
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+/* CARD FOOTER */
+.card-divider {
+  height: 1px;
+  background-color: #f1f5f9;
+  width: 100%;
+}
+
+.card-footer {
+  display: flex;
+  height: 50px;
+}
+
+.card-action-btn {
+  flex: 1;
+  background: none;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.card-action-btn:hover {
+  background-color: #f8fafc;
+}
+
+.card-action-btn:first-child {
+  border-right: 1px solid #f1f5f9;
+}
+
+.action-edit {
+  color: #64748b;
+}
+
+.action-qr {
+  color: #ea580c;
+}
+
+/* ADD TABLE CARD */
+.add-table-card {
+  border: 1px dashed #cbd5e1;
+  background-color: #f8fafc;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: #94a3b8;
+}
+
+.add-table-card:hover {
+  border-color: #94a3b8;
+  color: #64748b;
+  background-color: #f1f5f9;
+}
+
+.add-icon-wrapper {
+  width: 48px;
+  height: 48px;
+  background-color: #e2e8f0;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.add-text {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .table-grid {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  }
+}

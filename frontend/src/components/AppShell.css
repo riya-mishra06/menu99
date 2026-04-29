@@ -1,0 +1,266 @@
+.app-shell {
+  display: flex;
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+}
+
+/* SIDEBAR */
+.sidebar-nav {
+  width: 240px;
+  background: #1c1917;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  z-index: 100;
+  transition: width 0.2s;
+}
+
+.sidebar-logo {
+  padding: 24px 20px 20px;
+  border-bottom: 1px solid #292524;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.sidebar-logo-text {
+  font-family: 'Outfit', sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+.logo-menu { color: #ea580c; }
+.logo-99 { color: #fff; }
+
+.sidebar-cafe-name {
+  font-size: 11px;
+  color: #78716c;
+  padding: 0 20px 16px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+
+.sidebar-section-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: #57534e;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 12px 20px 6px;
+}
+
+.sidebar-links {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 8px 12px;
+  gap: 2px;
+  overflow-y: auto;
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  color: #a8a29e;
+  transition: all 0.15s;
+  cursor: pointer;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+}
+
+.sidebar-link:hover {
+  background: #292524;
+  color: #e7e5e4;
+}
+
+.sidebar-link.active {
+  background: #7c2d12;
+  color: #fff;
+}
+
+.sidebar-link.active svg {
+  color: #fb923c;
+}
+
+.sidebar-badge {
+  margin-left: auto;
+  background: #ea580c;
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 10px;
+  min-width: 18px;
+  text-align: center;
+}
+
+.sidebar-divider {
+  height: 1px;
+  background: #292524;
+  margin: 8px 12px;
+}
+
+.sidebar-footer {
+  padding: 16px 12px;
+  border-top: 1px solid #292524;
+}
+
+.sidebar-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.sidebar-user:hover { background: #292524; }
+
+.sidebar-avatar {
+  width: 32px;
+  height: 32px;
+  background: #ea580c;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 13px;
+  color: white;
+  flex-shrink: 0;
+}
+
+.sidebar-user-info { flex: 1; }
+
+.sidebar-user-name {
+  font-size: 12px;
+  font-weight: 700;
+  color: #e7e5e4;
+}
+
+.sidebar-user-role {
+  font-size: 10px;
+  color: #78716c;
+}
+
+/* MAIN CONTENT AREA */
+.shell-main {
+  margin-left: 240px;
+  flex: 1;
+  min-height: 100vh;
+  background: #f8fafc;
+  display: flex;
+  flex-direction: column;
+}
+
+/* TOP BAR */
+.shell-topbar {
+  height: 56px;
+  background: white;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.topbar-breadcrumb {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1e293b;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.topbar-notif-btn {
+  background: none;
+  border: 1px solid #e2e8f0;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #64748b;
+  transition: all 0.15s;
+  position: relative;
+}
+
+.topbar-notif-btn:hover {
+  background: #f8fafc;
+  color: #1e293b;
+}
+
+.notif-dot {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 7px;
+  height: 7px;
+  background: #ea580c;
+  border-radius: 50%;
+  border: 2px solid white;
+}
+
+.cafe-status-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #16a34a;
+}
+
+.cafe-status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #16a34a;
+  animation: pulse-green 2s infinite;
+}
+
+@keyframes pulse-green {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.shell-content {
+  flex: 1;
+  padding: 28px;
+}
+
+@media (max-width: 768px) {
+  .sidebar-nav { width: 64px; }
+  .sidebar-link span, .sidebar-logo-text, .sidebar-cafe-name,
+  .sidebar-section-label, .sidebar-user-info, .sidebar-badge { display: none; }
+  .shell-main { margin-left: 64px; }
+  .sidebar-link { justify-content: center; padding: 12px; }
+}
