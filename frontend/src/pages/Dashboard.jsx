@@ -4,63 +4,60 @@ import { Plus, FileText, IndianRupee, Star, Bell, ArrowRight, MoreHorizontal } f
 import './Dashboard.css';
 
 export default function Dashboard() {
-  const [recentOrders, setRecentOrders] = React.useState([
-    {
-      id: '#6689',
-      time: '2 mins ago',
-      status: 'New',
-      type: 'Table 08',
-      items: 'Masala Chai x2, Paneer Tikka x1, Garlic Naan x2',
-      amount: '₹740.00',
-      action: 'Accept',
-      badgeClass: 'new',
-      borderClass: 'status-new',
-      btnClass: 'accept'
-    },
-    {
-      id: '#6688',
-      time: '15 mins ago',
-      status: 'Prepared',
-      type: 'Takeaway',
-      items: 'Iced Coffee x1, Veg Club Sandwich x1',
-      amount: '₹420.00',
-      action: 'Ready',
-      badgeClass: 'prepared',
-      borderClass: 'status-prepared',
-      btnClass: 'ready'
-    },
-    {
-      id: '#6687',
-      time: '22 mins ago',
-      status: 'Ready',
-      type: 'Table 02',
-      items: 'Butter Chicken x1, Lachha Paratha x2',
-      amount: '₹680.00',
-      action: 'Complete',
-      badgeClass: 'ready',
-      borderClass: 'status-ready',
-      btnClass: 'complete'
-    }
-  ]);
+  const [orders, setOrders] = React.useState([]);
+  const [reviews, setReviews] = React.useState([]);
 
-  const handleAction = (orderId, currentAction) => {
-    if (currentAction === 'Complete') {
-      setRecentOrders(prev => prev.filter(o => o.id !== orderId));
-    } else if (currentAction === 'Ready') {
-      setRecentOrders(prev => prev.map(o => 
-        o.id === orderId ? { ...o, status: 'Ready', action: 'Complete', badgeClass: 'ready', borderClass: 'status-ready', btnClass: 'complete' } : o
-      ));
-    } else if (currentAction === 'Accept') {
-      setRecentOrders(prev => prev.map(o => 
-        o.id === orderId ? { ...o, status: 'Prepared', action: 'Ready', badgeClass: 'prepared', borderClass: 'status-prepared', btnClass: 'ready' } : o
-      ));
-    }
-  };
+  React.useEffect(() => {
+    const savedOrders = localStorage.getItem('menu99_orders');
+    if (savedOrders) setOrders(JSON.parse(savedOrders));
 
-  const [staffOnDuty, setStaffOnDuty] = React.useState([
-    { id: 1, name: 'Raj Thapa', role: 'Kitchen Head', img: 'https://i.pravatar.cc/150?u=raj' },
-    { id: 2, name: 'Amit L.', role: 'Floor Manager', img: 'https://i.pravatar.cc/150?u=amit' }
-  ]);
+    const savedReviews = localStorage.getItem('menu99_reviews');
+    if (savedReviews) setReviews(JSON.parse(savedReviews));
+  }, []);
+
+  const [staffOnDuty, setStaffOnDuty] = React.useState(() => {
+    const saved = localStorage.getItem('menu99_staff');
+    return saved ? JSON.parse(saved) : [
+      { id: 1, name: 'Raj Thapa', role: 'Kitchen Head', img: 'https://i.pravatar.cc/150?u=raj' },
+      { id: 2, name: 'Amit L.', role: 'Floor Manager', img: 'https://i.pravatar.cc/150?u=amit' }
+    ];
+  });
+
+  React.useEffect(() => {
+    localStorage.setItem('menu99_staff', JSON.stringify(staffOnDuty));
+  }, [staffOnDuty]);
+
+  const totalOrders = orders.length > 0 ? orders.length : 42;
+  const pendingOrders = orders.length > 0 ? orders.filter(o => o.status !== 'Completed' && o.status !== 'Delivered').length : 3;
+  
+  const revenue = orders.length > 0 
+    ? orders.reduce((sum, order) => sum + parseFloat(order.total.replace(/[^0-9.]/g, '') || 0), 0)
+    : 8450;
+    
+  const averageRating = reviews.length > 0
+    ? (reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length).toFixed(1)
+    : 4.8;
+    
+  const latestReview = reviews.length > 0 
+    ? reviews.find(r => r.rating >= 4) || reviews[0]
+    : { text: '"Best Masala Chai in the city! Great service."', rating: 5, name: 'Rahul M.' };
+
+  const recentOrdersList = orders.length > 0 
+    ? orders.slice(0, 3).map(o => ({
+        id: o.id,
+        time: o.time,
+        status: o.status,
+        type: o.type,
+        items: o.items ? o.items.map(i => `${i.name} x${i.qty}`).join(', ') : '',
+        amount: o.total,
+        badgeClass: o.status.toLowerCase().replace(/\s+/g, '-'),
+        borderClass: `status-${o.status.toLowerCase().replace(/\s+/g, '-')}`
+      }))
+    : [
+        { id: '#6689', time: '2 mins ago', status: 'New', type: 'Table 08', items: 'Masala Chai x2, Paneer Tikka x1, Garlic Naan x2', amount: '₹740.00', badgeClass: 'new', borderClass: 'status-new' },
+        { id: '#6688', time: '15 mins ago', status: 'Preparing', type: 'Takeaway', items: 'Iced Coffee x1, Veg Club Sandwich x1', amount: '₹420.00', badgeClass: 'preparing', borderClass: 'status-preparing' },
+        { id: '#6687', time: '22 mins ago', status: 'Ready', type: 'Table 02', items: 'Butter Chicken x1, Lachha Paratha x2', amount: '₹680.00', badgeClass: 'ready', borderClass: 'status-ready' }
+      ];
   const [isAddingStaff, setIsAddingStaff] = React.useState(false);
   const [newStaffName, setNewStaffName] = React.useState('');
   const [newStaffRole, setNewStaffRole] = React.useState('');
@@ -95,7 +92,7 @@ export default function Dashboard() {
             <div className="kpi-header">
               <div>
                 <div className="kpi-title">TODAY'S ORDERS</div>
-                <div className="kpi-value">42</div>
+                <div className="kpi-value">{totalOrders}</div>
               </div>
               <div className="kpi-icon-wrapper blue">
                 <FileText size={16} />
@@ -119,7 +116,7 @@ export default function Dashboard() {
             <div className="kpi-header">
               <div>
                 <div className="kpi-title">TODAY'S REVENUE</div>
-                <div className="kpi-value">₹8,450</div>
+                <div className="kpi-value">₹{revenue.toLocaleString('en-IN')}</div>
               </div>
               <div className="kpi-icon-wrapper orange">
                 <IndianRupee size={16} />
@@ -135,7 +132,7 @@ export default function Dashboard() {
             <div className="kpi-header">
               <div>
                 <div className="kpi-title">AVERAGE RATING</div>
-                <div className="kpi-value">4.8</div>
+                <div className="kpi-value">{averageRating}</div>
               </div>
               <div className="kpi-icon-wrapper yellow">
                 <Star size={16} />
@@ -151,7 +148,7 @@ export default function Dashboard() {
             <div className="kpi-header">
               <div>
                 <div className="kpi-title">PENDING ORDERS</div>
-                <div className="kpi-value">03</div>
+                <div className="kpi-value">{pendingOrders.toString().padStart(2, '0')}</div>
               </div>
               <div className="kpi-icon-wrapper brown">
                 <Bell size={16} />
@@ -174,7 +171,7 @@ export default function Dashboard() {
             </div>
 
             <div className="orders-list">
-              {recentOrders.map((order, idx) => (
+              {recentOrdersList.map((order, idx) => (
                 <div key={idx} className={`order-card ${order.borderClass}`}>
                   <div className="order-info">
                     <div className="order-header">
@@ -187,7 +184,7 @@ export default function Dashboard() {
                   </div>
                   <div className="order-action">
                     <div className="order-amount">{order.amount}</div>
-                    <button className={`action-btn ${order.btnClass}`} onClick={() => handleAction(order.id, order.action)}>{order.action}</button>
+                    <Link to="/orders" className="action-btn accept" style={{textDecoration: 'none', textAlign: 'center'}}>Manage</Link>
                   </div>
                 </div>
               ))}
@@ -234,16 +231,14 @@ export default function Dashboard() {
             {/* Review */}
             <div className="sidebar-card review-card">
               <div className="review-label">LATEST REVIEW</div>
-              <div className="review-text">"Best Masala Chai in the city! Great service."</div>
+              <div className="review-text">"{latestReview.text}"</div>
               <div className="review-footer">
                 <div className="stars">
-                  <Star size={12} fill="currentColor" stroke="none" />
-                  <Star size={12} fill="currentColor" stroke="none" />
-                  <Star size={12} fill="currentColor" stroke="none" />
-                  <Star size={12} fill="currentColor" stroke="none" />
-                  <Star size={12} fill="currentColor" stroke="none" />
+                  {Array.from({ length: 5 }, (_, i) => (
+                    <Star key={i} size={12} fill={i < latestReview.rating ? '#f59e0b' : 'none'} stroke={i < latestReview.rating ? '#f59e0b' : '#d1d5db'} />
+                  ))}
                 </div>
-                <span className="reviewer-name">- Rahul M.</span>
+                <span className="reviewer-name">- {latestReview.name}</span>
               </div>
             </div>
 

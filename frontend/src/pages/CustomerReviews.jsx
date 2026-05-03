@@ -9,48 +9,55 @@ export default function CustomerReviews() {
   const [replyingTo, setReplyingTo] = useState(null);
   const [replyText, setReplyText] = useState('');
 
-  const [reviewsData, setReviewsData] = useState([
-    {
-      id: 1,
-      name: 'Amit Shah',
-      avatar: 'AS',
-      color: '#0ea5e9',
-      rating: 5,
-      date: '26 Apr 2025',
-      text: 'Absolutely loved the café! The ambience is wonderful and the masala chai was the best I\'ve had in years. The paneer tikka was perfectly spiced. Will definitely be coming back with my family!',
-      reply: null
-    },
-    {
-      id: 2,
-      name: 'Neha Patel',
-      avatar: 'NP',
-      color: '#ec4899',
-      rating: 4,
-      date: '24 Apr 2025',
-      text: 'Great place for a quick lunch! The veg biryani was flavorful and the staff was very courteous. The waiting time was a bit long during peak hours, but the food was worth it. The cold coffee is also very refreshing.',
-      reply: 'Thank you so much Neha! We are working hard to reduce our wait times during peak hours. Hope to see you again soon!'
-    },
-    {
-      id: 3,
-      name: 'Deepak Kumar',
-      avatar: 'DK',
-      color: '#8b5cf6',
-      rating: 3,
-      date: '22 Apr 2025',
-      text: 'Decent café with a nice cozy vibe. The filter coffee was good. However, the snacks section could use some more variety. The seating is comfortable and the WiFi works well for remote work sessions.',
-      reply: null
-    },
-    {
-      id: 4,
-      name: 'Sneha Iyer',
-      avatar: 'SI',
-      color: '#10b981',
-      rating: 5,
-      date: '20 Apr 2025',
-      text: 'I ordered via the online menu and the food arrived quickly and was still hot. The butter chicken is absolutely delicious! Packaging was also very neat and the quantity was generous. Highly recommend!',
-      reply: null
-    }
-  ]);
+  const [reviewsData, setReviewsData] = useState(() => {
+    const saved = localStorage.getItem('menu99_reviews');
+    return saved ? JSON.parse(saved) : [
+      {
+        id: 1,
+        name: 'Amit Shah',
+        avatar: 'AS',
+        color: '#0ea5e9',
+        rating: 5,
+        date: '26 Apr 2025',
+        text: 'Absolutely loved the café! The ambience is wonderful and the masala chai was the best I\'ve had in years. The paneer tikka was perfectly spiced. Will definitely be coming back with my family!',
+        reply: null
+      },
+      {
+        id: 2,
+        name: 'Neha Patel',
+        avatar: 'NP',
+        color: '#ec4899',
+        rating: 4,
+        date: '24 Apr 2025',
+        text: 'Great place for a quick lunch! The veg biryani was flavorful and the staff was very courteous. The waiting time was a bit long during peak hours, but the food was worth it. The cold coffee is also very refreshing.',
+        reply: 'Thank you so much Neha! We are working hard to reduce our wait times during peak hours. Hope to see you again soon!'
+      },
+      {
+        id: 3,
+        name: 'Deepak Kumar',
+        avatar: 'DK',
+        color: '#8b5cf6',
+        rating: 3,
+        date: '22 Apr 2025',
+        text: 'Decent café with a nice cozy vibe. The filter coffee was good. However, the snacks section could use some more variety. The seating is comfortable and the WiFi works well for remote work sessions.',
+        reply: null
+      },
+      {
+        id: 4,
+        name: 'Sneha Iyer',
+        avatar: 'SI',
+        color: '#10b981',
+        rating: 5,
+        date: '20 Apr 2025',
+        text: 'I ordered via the online menu and the food arrived quickly and was still hot. The butter chicken is absolutely delicious! Packaging was also very neat and the quantity was generous. Highly recommend!',
+        reply: null
+      }
+    ];
+  });
+
+  React.useEffect(() => {
+    localStorage.setItem('menu99_reviews', JSON.stringify(reviewsData));
+  }, [reviewsData]);
 
   const renderStars = (count) =>
     Array.from({ length: 5 }, (_, i) => (

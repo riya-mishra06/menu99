@@ -5,6 +5,8 @@ import './Register.css';
 
 export default function Register() {
   const navigate = useNavigate();
+  const fileInputRef = React.useRef(null);
+  const [logoPreview, setLogoPreview] = useState(null);
   const [formData, setFormData] = useState({
     cafeName: 'Menu99 Cafe',
     ownerName: 'Dipak Thakor',
@@ -25,6 +27,21 @@ export default function Register() {
     e.preventDefault();
     console.log('Registering', formData);
     navigate('/verify-email');
+  };
+
+  const handleUploadClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setLogoPreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   return (
@@ -72,9 +89,27 @@ export default function Register() {
             <div className="register-card">
               
               <div className="identity-section">
-                <button type="button" className="upload-btn">
-                  <Camera size={20} strokeWidth={2.5}/>
-                  <span>UPLOAD LOGO</span>
+                <input 
+                  type="file" 
+                  ref={fileInputRef} 
+                  style={{ display: 'none' }} 
+                  accept="image/*"
+                  onChange={handleFileChange}
+                />
+                <button 
+                  type="button" 
+                  className="upload-btn" 
+                  onClick={handleUploadClick}
+                  style={logoPreview ? { padding: 0, overflow: 'hidden' } : {}}
+                >
+                  {logoPreview ? (
+                    <img src={logoPreview} alt="Logo Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  ) : (
+                    <>
+                      <Camera size={20} strokeWidth={2.5}/>
+                      <span>UPLOAD LOGO</span>
+                    </>
+                  )}
                 </button>
                 <div className="identity-text">
                   <h3>Cafe Identity</h3>

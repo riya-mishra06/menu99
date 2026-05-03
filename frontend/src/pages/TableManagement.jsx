@@ -4,15 +4,22 @@ import { Plus, QrCode, Edit2, FileText } from 'lucide-react';
 import './TableManagement.css';
 
 export default function TableManagement() {
-  const [tables, setTables] = useState([
-    { id: 'T1', status: 'empty' },
-    { id: 'T2', status: 'occupied', orderId: '#6421', time: '12:30 PM', items: 4 },
-    { id: 'T3', status: 'empty' },
-    { id: 'T4', status: 'empty' },
-    { id: 'T5', status: 'occupied', orderId: '#6422', time: '12:45 PM', items: 2 },
-    { id: 'T6', status: 'empty' },
-    { id: 'T7', status: 'empty' }
-  ]);
+  const [tables, setTables] = useState(() => {
+    const saved = localStorage.getItem('menu99_tables');
+    return saved ? JSON.parse(saved) : [
+      { id: 'T1', status: 'empty' },
+      { id: 'T2', status: 'occupied', orderId: '#6421', time: '12:30 PM', items: 4 },
+      { id: 'T3', status: 'empty' },
+      { id: 'T4', status: 'empty' },
+      { id: 'T5', status: 'occupied', orderId: '#6422', time: '12:45 PM', items: 2 },
+      { id: 'T6', status: 'empty' },
+      { id: 'T7', status: 'empty' }
+    ];
+  });
+
+  React.useEffect(() => {
+    localStorage.setItem('menu99_tables', JSON.stringify(tables));
+  }, [tables]);
 
   const handleAddTable = () => {
     const newId = `T${tables.length + 1}`;
