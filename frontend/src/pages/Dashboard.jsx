@@ -57,10 +57,31 @@ export default function Dashboard() {
     }
   };
 
-  const staffOnDuty = [
+  const [staffOnDuty, setStaffOnDuty] = React.useState([
     { id: 1, name: 'Raj Thapa', role: 'Kitchen Head', img: 'https://i.pravatar.cc/150?u=raj' },
     { id: 2, name: 'Amit L.', role: 'Floor Manager', img: 'https://i.pravatar.cc/150?u=amit' }
-  ];
+  ]);
+  const [isAddingStaff, setIsAddingStaff] = React.useState(false);
+  const [newStaffName, setNewStaffName] = React.useState('');
+  const [newStaffRole, setNewStaffRole] = React.useState('');
+
+  const handleAddStaff = () => {
+    if (newStaffName.trim() && newStaffRole.trim()) {
+      setStaffOnDuty(prev => [...prev, {
+        id: Date.now(),
+        name: newStaffName,
+        role: newStaffRole,
+        img: `https://i.pravatar.cc/150?u=${Date.now()}`
+      }]);
+      setNewStaffName('');
+      setNewStaffRole('');
+      setIsAddingStaff(false);
+    }
+  };
+
+  const handleRemoveStaff = (id) => {
+    setStaffOnDuty(prev => prev.filter(s => s.id !== id));
+  };
 
   return (
     <div className="dashboard-page">
@@ -230,7 +251,35 @@ export default function Dashboard() {
             <div className="sidebar-card">
               <div className="sidebar-card-header">
                 <div className="sidebar-card-title">Staff on Duty</div>
+                <button 
+                  className="add-staff-btn" 
+                  onClick={() => setIsAddingStaff(!isAddingStaff)}
+                  title="Add Staff"
+                >
+                  <Plus size={16} />
+                </button>
               </div>
+
+              {isAddingStaff && (
+                <div className="add-staff-form">
+                  <input 
+                    type="text" 
+                    placeholder="Staff Name" 
+                    value={newStaffName} 
+                    onChange={e => setNewStaffName(e.target.value)} 
+                    className="staff-input"
+                  />
+                  <input 
+                    type="text" 
+                    placeholder="Role (e.g. Waiter)" 
+                    value={newStaffRole} 
+                    onChange={e => setNewStaffRole(e.target.value)} 
+                    className="staff-input"
+                  />
+                  <button className="staff-submit-btn" onClick={handleAddStaff}>Add to Duty</button>
+                </div>
+              )}
+
               <div className="staff-list">
                 {staffOnDuty.map(staff => (
                   <div key={staff.id} className="staff-item">
@@ -241,9 +290,21 @@ export default function Dashboard() {
                         <span className="staff-role">{staff.role}</span>
                       </div>
                     </div>
-                    <div className="status-dot"></div>
+                    <div className="staff-actions">
+                      <div className="status-dot"></div>
+                      <button 
+                        className="remove-staff-btn" 
+                        onClick={() => handleRemoveStaff(staff.id)}
+                        title="Remove staff"
+                      >
+                        ×
+                      </button>
+                    </div>
                   </div>
                 ))}
+                {staffOnDuty.length === 0 && (
+                  <div className="no-staff-msg">No staff currently on duty.</div>
+                )}
               </div>
             </div>
 

@@ -226,25 +226,150 @@
   border: 2px solid white;
 }
 
+.notif-wrapper {
+  position: relative;
+}
+
+.notif-panel {
+  position: absolute;
+  top: 48px;
+  right: 0;
+  width: 320px;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1);
+  z-index: 100;
+  overflow: hidden;
+  animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.notif-header {
+  padding: 16px;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #f8fafc;
+}
+
+.notif-header h4 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.notif-count {
+  font-size: 11px;
+  font-weight: 600;
+  color: #ea580c;
+  background: #ffedd5;
+  padding: 2px 8px;
+  border-radius: 12px;
+}
+
+.notif-list {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.notif-item {
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid #f1f5f9;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.notif-item:hover {
+  background: #f8fafc;
+}
+
+.notif-item.unread {
+  background: #fffbeb;
+}
+
+.notif-item.unread:hover {
+  background: #fef3c7;
+}
+
+.notif-content {
+  flex: 1;
+}
+
+.notif-title {
+  margin: 0 0 4px 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.notif-time {
+  font-size: 11px;
+  color: #64748b;
+}
+
+.notif-unread-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ea580c;
+  flex-shrink: 0;
+}
+
+.notif-empty {
+  padding: 24px;
+  text-align: center;
+  font-size: 13px;
+  color: #64748b;
+}
+
 .cafe-status-pill {
   display: flex;
   align-items: center;
   gap: 8px;
   padding: 6px 14px;
-  background: #f0fdf4;
-  border: 1px solid #bbf7d0;
   border-radius: 20px;
   font-size: 12px;
   font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.cafe-status-pill.open {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
   color: #16a34a;
+}
+
+.cafe-status-pill.closed {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #dc2626;
 }
 
 .cafe-status-dot {
   width: 7px;
   height: 7px;
   border-radius: 50%;
+}
+
+.cafe-status-pill.open .cafe-status-dot {
   background: #16a34a;
   animation: pulse-green 2s infinite;
+}
+
+.cafe-status-pill.closed .cafe-status-dot {
+  background: #dc2626;
+  animation: none;
 }
 
 @keyframes pulse-green {

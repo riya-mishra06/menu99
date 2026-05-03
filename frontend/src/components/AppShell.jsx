@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { NavLink, useNavigate, Outlet, useLocation } from 'react-router-dom';
 import {
   LayoutDashboard, ShoppingBag, BookOpen, LayoutGrid,
@@ -23,6 +23,26 @@ const bottomItems = [
 export default function AppShell() {
   const navigate = useNavigate();
   const location = useLocation();
+  const notifRef = useRef(null);
+
+  const [isCafeOpen, setIsCafeOpen] = useState(true);
+  const [isNotifOpen, setIsNotifOpen] = useState(false);
+  const [notifications, setNotifications] = useState([
+    { id: 1, title: 'New order received (#1042)', time: '2 mins ago', read: false },
+    { id: 2, title: 'Table 4 requested bill', time: '10 mins ago', read: false },
+    { id: 3, title: 'Low stock on Coffee Beans', time: '1 hour ago', read: true }
+  ]);
+
+  // Handle outside click to close notifications
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (notifRef.current && !notifRef.current.contains(event.target)) {
+        setIsNotifOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const handleLogout = () => {
     navigate('/login');
@@ -44,6 +64,20 @@ export default function AppShell() {
   };
 
   const pageTitle = getPageTitle();
+
+  const toggleCafeStatus = () => {
+    setIsCafeOpen(!isCafeOpen);
+  };
+
+  const toggleNotifPanel = () => {
+    setIsNotifOpen(!isNotifOpen);
+  };
+
+  const markAsRead = (id) => {
+    setNotifications(notifications.map(n => n.id === id ? { ...n, read: true } : n));
+  };
+  
+  const unreadCount = notifications.filter(n => !n.read).length;
 
   return (
     <div className="app-shell">
@@ -111,14 +145,45 @@ export default function AppShell() {
             {pageTitle}
           </div>
           <div className="topbar-right">
-            <div className="cafe-status-pill">
+            <button 
+              className={`cafe-status-pill ${isCafeOpen ? 'open' : 'closed'}`}
+              onClick={toggleCafeStatus}
+            >
               <div className="cafe-status-dot"></div>
-              Cafe Open
-            </div>
-            <button className="topbar-notif-btn">
-              <Bell size={16} />
-              <div className="notif-dot"></div>
+              {isCafeOpen ? 'Cafe Open' : 'Cafe Closed'}
             </button>
+            <div className="notif-wrapper" ref={notifRef}>
+              <button className="topbar-notif-btn" onClick={toggleNotifPanel}>
+                <Bell size={16} />
+                {unreadCount > 0 && <div className="notif-dot"></div>}
+              </button>
+              
+              {isNotifOpen && (
+                <div className="notif-panel">
+                  <div className="notif-header">
+                    <h4>Notifications</h4>
+                    <span className="notif-count">{unreadCount} new</span>
+                  </div>
+                  <div className="notif-list">
+                    {notifications.length > 0 ? notifications.map(notif => (
+                      <div 
+                        key={notif.id} 
+                        className={`notif-item ${!notif.read ? 'unread' : ''}`}
+                        onClick={() => markAsRead(notif.id)}
+                      >
+                        <div className="notif-content">
+                          <p className="notif-title">{notif.title}</p>
+                          <span className="notif-time">{notif.time}</span>
+                        </div>
+                        {!notif.read && <div className="notif-unread-dot"></div>}
+                      </div>
+                    )) : (
+                      <div className="notif-empty">No new notifications</div>
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </header>
 

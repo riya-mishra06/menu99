@@ -156,12 +156,21 @@
   font-weight: 700;
   padding: 4px 8px;
   border-radius: 4px;
-  background-color: #ffedd5;
-  color: #ea580c;
   display: flex;
   align-items: center;
   gap: 4px;
 }
+
+.card-badge.new { background-color: #ffedd5; color: #ea580c; }
+.card-badge.accepted { background-color: #e0f2fe; color: #0284c7; }
+.card-badge.preparing { background-color: #fef08a; color: #a16207; }
+.card-badge.ready { background-color: #dcfce7; color: #15803d; }
+.card-badge.picked-up { background-color: #f3e8ff; color: #7e22ce; }
+.card-badge.on-the-way { background-color: #ede9fe; color: #6d28d9; }
+.card-badge.delivered { background-color: #d1fae5; color: #059669; }
+.card-badge.served { background-color: #d1fae5; color: #059669; }
+.card-badge.handed-over { background-color: #d1fae5; color: #059669; }
+.card-badge.completed { background-color: #d1fae5; color: #059669; }
 
 .card-type-row {
   display: flex;
@@ -275,9 +284,83 @@
   border-left-color: #3b82f6;
 }
 
-.card-badge.preparing {
-  background-color: #eff6ff;
-  color: #2563eb;
+/* Progress Timeline */
+.progress-timeline {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+  margin-bottom: 32px;
+  position: relative;
+  padding: 0 10px;
+}
+
+.timeline-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  position: relative;
+}
+
+.timeline-step:last-child {
+  flex: 0;
+}
+
+.step-dot-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.step-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #cbd5e1;
+  border: 2px solid #ffffff;
+  box-shadow: 0 0 0 1px #cbd5e1;
+  z-index: 2;
+  transition: all 0.3s;
+}
+
+.step-line {
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  width: 100%;
+  height: 2px;
+  background-color: #cbd5e1;
+  z-index: 1;
+}
+
+.timeline-step.active .step-dot {
+  background-color: #ea580c;
+  box-shadow: 0 0 0 1px #ea580c;
+}
+
+.timeline-step.active .step-line {
+  background-color: #ea580c;
+}
+
+.timeline-step.current .step-dot {
+  box-shadow: 0 0 0 2px #ffedd5, 0 0 0 3px #ea580c;
+}
+
+.step-label {
+  font-size: 9px;
+  font-weight: 700;
+  color: #94a3b8;
+  margin-top: 8px;
+  text-align: center;
+  width: 60px;
+  position: absolute;
+  top: 14px;
+}
+
+.timeline-step.active .step-label {
+  color: #ea580c;
 }
 
 .btn-full-action {
