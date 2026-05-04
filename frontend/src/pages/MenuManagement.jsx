@@ -10,7 +10,6 @@ export default function MenuManagement() {
   const [newItem, setNewItem] = useState({ name: '', price: '', category: 'Snacks', type: 'veg', img: null });
   const fileInputRef = React.useRef(null);
 
-  const categories = ['All', 'Hot Beverages', 'Cold Beverages', 'Snacks', 'Main Course', 'Desserts'];
 
   const [menuItems, setMenuItems] = useState(() => {
     const saved = localStorage.getItem('menu99_menu');
@@ -71,6 +70,15 @@ export default function MenuManagement() {
       }
     ];
   });
+
+  const defaultCategories = ['Hot Beverages', 'Cold Beverages', 'Snacks', 'Main Course', 'Desserts'];
+
+  const availableCategories = React.useMemo(() => {
+    const fromItems = menuItems.map(item => item.category);
+    return [...new Set([...defaultCategories, ...fromItems])];
+  }, [menuItems]);
+
+  const displayCategories = ['All', ...availableCategories];
 
   React.useEffect(() => {
     localStorage.setItem('menu99_menu', JSON.stringify(menuItems));
@@ -162,7 +170,7 @@ export default function MenuManagement() {
             />
           </div>
           <div className="category-tabs">
-            {categories.map(cat => (
+            {displayCategories.map(cat => (
               <button 
                 key={cat} 
                 className={`cat-tab ${activeCategory === cat ? 'active' : ''}`}
@@ -267,9 +275,16 @@ export default function MenuManagement() {
                   <div style={{display: 'flex', gap: '16px', width: '100%'}}>
                     <div className="form-group" style={{flex: 1}}>
                       <label>Category</label>
-                      <select value={newItem.category} onChange={e => setNewItem({...newItem, category: e.target.value})}>
-                        {categories.filter(c => c !== 'All').map(c => <option key={c} value={c}>{c}</option>)}
-                      </select>
+                      <input 
+                        type="text" 
+                        value={newItem.category} 
+                        onChange={e => setNewItem({...newItem, category: e.target.value})} 
+                        placeholder="e.g. Snacks"
+                        list="category-options"
+                      />
+                      <datalist id="category-options">
+                        {availableCategories.map(c => <option key={c} value={c} />)}
+                      </datalist>
                     </div>
                     <div className="form-group" style={{flex: 1}}>
                       <label>Type</label>
